@@ -11,6 +11,7 @@ class Tag extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'tag';
 	public $validate = array(
 		'tag' => array(
 			'notempty' => array(

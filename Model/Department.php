@@ -11,6 +11,7 @@ class Department extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'department';
 	public $validate = array(
 		'department' => array(
 			'notempty' => array(

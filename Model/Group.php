@@ -12,6 +12,7 @@ class Group extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'group';
 	public $validate = array(
 		'group' => array(
 			'notempty' => array(

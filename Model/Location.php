@@ -11,6 +11,7 @@ class Location extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'location';
 	public $validate = array(
 		'location' => array(
 			'notempty' => array(

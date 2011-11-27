@@ -17,6 +17,7 @@ class User extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'username';
 	public $validate = array(
 		'username' => array(
 			'notempty' => array(

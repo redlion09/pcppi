@@ -11,6 +11,7 @@ class Position extends AppModel {
  *
  * @var array
  */
+        public $displayField = 'position';
 	public $validate = array(
 		'position' => array(
 			'notempty' => array(
