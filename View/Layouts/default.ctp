@@ -21,7 +21,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo __('CakePHP: the rapid development php framework:'); ?>
+		<?php echo __('Pepsi Cola Philippines Products Inc.'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -33,12 +33,18 @@
 	?>
 </head>
 <body>
+        <div id="header">
+                <h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
+        </div>
 	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
-		</div>
 		<div id="content">
-
+                        <?php 
+                            if(!empty($userInfo)):
+                        ?>
+                    <div id="userNavigation">
+                        <?php echo sprintf("%s, %s [%s] %s", $userInfo['last_name'], $userInfo['first_name'], $this->Html->link($userInfo['username'], array('controller' => 'users', 'action'=> 'profile') ), $this->Html->link(__('logout', true), array('controller' => 'users', 'action'=> 'logout'))); ?>
+                    </div>
+                        <?php endif;?>
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $content_for_layout; ?>
