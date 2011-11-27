@@ -245,10 +245,17 @@ class User extends AppModel {
 	);
         
         public function beforeSave() {
-            $this->data['User']['password'] = Security::hash($this->data['User']['password'], NULL, TRUE);
+            $this->hashPassword(null, true);
             return true;
         }
         
+        function hashPassword($data) {
+            if (isset($this->data['User']['password'])) {
+                $this->data['User']['password'] = Security::hash($this->data['User']['password'], NULL, TRUE);
+                return $data;
+            }
+            return $data;
+        }
         function parentNode() {
             if (!$this->id && empty($this->data)) {
                 return null;
