@@ -1,0 +1,3 @@
+[submodule "Plugin/Media"]
+	path = Plugin/Media
+	url = git@github.com:aeolu/CakePHP-Media-Plugin.git
