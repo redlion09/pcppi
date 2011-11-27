@@ -65,3 +65,5 @@ Cache::config('default', array('engine' => 'File'));
  */
 
 CakePlugin::load('AclExtras');
+CakePlugin::load('Media');
+//require(APP . 'Plugin/Media/config/core.php');
