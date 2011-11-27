@@ -55,11 +55,9 @@ class UsersController extends AppController {
 		}
 		$this->set('user', $this->User->read(null, $id));
 	}
-	public function profile($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
+	public function profile() {
+		$userInfo = $this->_userInfo();
+                $id = $userInfo['id'];
 		$this->set('user', $this->User->read(null, $id));
 	}
 
