@@ -40,6 +40,24 @@ class User extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+                        'matchpassword' => array(
+                            'rule' => array('matchpassword'),
+                            'message' => 'Passwords do not match',
+                        //'allowEmpty' => false,
+                        //'required' => false,
+                        //'last' => false, // Stop validation after this rule
+                        //'on' => 'create', // Limit validation to 'create' or 'update' operations
+                        ),
+		),
+		'password_confirmation' => array(
+			'notempty' => array(
+				'rule' => array('notempty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
 		),
 		'first_name' => array(
 			'notempty' => array(
@@ -255,6 +273,14 @@ class User extends AppModel {
                 return $data;
             }
             return $data;
+        }
+        
+        function matchPassword($data) {
+            if ($data['password'] != $this->data['User']['password_confirmation']){
+                $this->invalidate('password_confirmation', 'Passwords do not match');
+                return false;
+        }
+            return true;
         }
         function parentNode() {
             if (!$this->id && empty($this->data)) {
