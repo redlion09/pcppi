@@ -13,6 +13,7 @@ class Group extends AppModel {
  * @var array
  */
         public $displayField = 'group';
+        public $actsAs = array('Acl' => array('type' => 'requester'));
 	public $validate = array(
 		'group' => array(
 			'notempty' => array(
@@ -61,5 +62,7 @@ class Group extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
+        function parentNode() {
+            return null;
+        }
 }
