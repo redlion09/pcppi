@@ -30,14 +30,19 @@
 		echo $this->Html->css('cake.generic');
 
 		echo $scripts_for_layout;
+                echo $this->Html->script(array('jquery-1.6.4.min'));
 	?>
 </head>
 <body>
-        <div id="header">
-                <h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
+        <div id="header" class="shadow">
+            <div id="header-container">
+                <?php 
+                    echo $this->element('navigation'); 
+                ?>
+            </div>
         </div>
 	<div id="container">
-		<div id="content">
+		<div id="content" class="shadow">
                         <?php 
                             if(!empty($userInfo)):
                         ?>

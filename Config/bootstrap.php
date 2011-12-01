@@ -64,6 +64,10 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 
+define('ADMINISTRATOR', '4ed1cad3-0d70-4965-b963-055c7f000101');
+define('ACCOUNTING', '4ed1cb14-f3f8-452b-b627-055f7f000101');
+define('REGULAR', '4ed1cb93-1050-4480-804f-299b7f000101');
+
 CakePlugin::load('AclExtras');
 CakePlugin::load('Media');
 //require(APP . 'Plugin/Media/config/core.php');
