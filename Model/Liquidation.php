@@ -13,6 +13,7 @@ class Liquidation extends AppModel {
  *
  * @var array
  */
+        public $actsAs = array('Containable');
 	public $validate = array(
 		'user_id' => array(
 			'uuid' => array(
@@ -80,5 +81,28 @@ class Liquidation extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+        
+        function getRate($location_id, $position_id) {
+            App::uses('Rate', 'Model');
+            /**
+             * Get position and location classes
+             */
+            $location = $this->Location->find('all', array('conditions'=>array('Location.id'=>$location_id)));
+            $position = $this->User->Position->find('all', array('conditions'=>array('Position.id'=>$position_id)));
+            /**
+             * Create a rate class to call the find() method
+             */
+            $Rate = new Rate();
+            $result = $Rate->find('all', array('conditions'=>array('Rate.location_class'=>$location[0]['Location']['class'], 'Rate.position_class'=>$position[0]['Position']['class']), 'order'=>'Rate.expense'));
+            /**
+             * Store values into an array and return
+             */
+            $rates = array();
+            $rates['breakfast'] = $result[0]['Rate']['rate'];
+            $rates['dinner'] = $result[1]['Rate']['rate'];
+            $rates['lodging'] = $result[2]['Rate']['rate'];
+            $rates['lunch'] = $result[3]['Rate']['rate'];
+            return $rates;
+        }
 
 }
