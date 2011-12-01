@@ -99,4 +99,16 @@ class LiquidationsController extends AppController {
 		$this->Session->setFlash(__('Liquidation was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        public function date() {
+                if (!empty($this->data)) {
+                    $this->Liquidation->create();
+                    $this->Session->delete('Report');
+                    $this->Session->write("Report.date.count", count($this->data['Liquidation']['dates']));
+                    for($i = 0; $i<count($this->data['Liquidation']['dates']); $i++){
+                        $this->Session->write("Report.$i.date", $this->data['Liquidation']['dates'][$i]);
+                    }
+                    $this->redirect(array('action'=>'add'));
+                }
+        }
 }
