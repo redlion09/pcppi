@@ -22,7 +22,7 @@
 
 /** General Style Info **/
 body {
-	background: #F7F6F5;
+	background: #003d4c;
 	color: #fff;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
@@ -56,6 +56,7 @@ h2 {
 	font-size: 190%;
 }
 h3 {
+	color: #2c6877;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 165%;
 }
@@ -73,56 +74,10 @@ p {
 /** Layout **/
 #container {
 	text-align: left;
-        width: 1000px;
-        margin: 0 auto;
-}
-
-/** Shadow **/
-.shadow{
-    box-shadow: 0px 0px 25px #999;
-}
-
-#header-container{
-    width: 1000px;
-    margin: 0 auto;
-}
-
-/** Navigation Styles **/
-
-#navigation{
-/*    color: white;*/
-}
-#navigation ul{
-    display: inline;
-}
-#navigation ul li{
-    display: inline;
-    list-style: none;
-}
-#navigation ul li a{
-    color: white;
 }
 
 #header{
-        margin-top: 20px;
-/*	padding: 10px 20px;*/
-        height: 89px;
-        width: 100%;
-        background-color: #336099;
-background-image: linear-gradient(bottom, rgb(115,15,15) 44%, rgb(143,16,16) 72%, rgb(158,20,20) 86%);
-background-image: -o-linear-gradient(bottom, rgb(115,15,15) 44%, rgb(143,16,16) 72%, rgb(158,20,20) 86%);
-background-image: -moz-linear-gradient(bottom, rgb(115,15,15) 44%, rgb(143,16,16) 72%, rgb(158,20,20) 86%);
-background-image: -webkit-linear-gradient(bottom, rgb(115,15,15) 44%, rgb(143,16,16) 72%, rgb(158,20,20) 86%);
-background-image: -ms-linear-gradient(bottom, rgb(115,15,15) 44%, rgb(143,16,16) 72%, rgb(158,20,20) 86%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.44, rgb(115,15,15)),
-	color-stop(0.72, rgb(143,16,16)),
-	color-stop(0.86, rgb(158,20,20))
-);
+	padding: 10px 20px;
 }
 #header h1 {
 	line-height:20px;
@@ -769,103 +724,4 @@ pre {
 #userNavigation{
     text-align: right;
     width: 100%;
-}
-
-.disabled{
-    background: #c7c6c5;
-    border: 1px solid #c7c6c5;
-    color: #ffffff;
-}
-.disabled:hover{
-    background: #c7c6c5;
-    border: 1px solid #c7c6c5;
-    color: #ffffff;
-}
-
-.fees{
-    width: 402px;
-}
-#branding{
-    float: left;
-    margin-top: -25px;
-    position: absolute;
-}
-#navigation{
-    margin-left: 200px;
-}
-.box{
-    display: inline-block;
-}
-
-tr, td{
-    height: 1em;
-}
-
-#actions{
-    float: right;
-}
-
-#LeftColumn{
-    width: 300px;
-    float: left;
-}
-#Announcements{
-    margin: 0 0 0 20px;
-    width: 600px;
-    border: 1px solid black;
-}
-
-#Information td{
-    background-color: white;
-    border: 5px;
-    margin: 0;
-    padding: 0;
-}
-
-#Home{
-    margin-top: 25px;
-}
-
-.name{
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-#Announcements h1{
-    font-size: 2em;
-    font-weight: bold;
-    border-bottom: 1px solid black;
-    padding: 5px 0 5px 10px;
-}
-
-div.announcement h2{
-    font-size: 1.3em;
-    border-bottom: 1px solid black;
-    padding: 5px 0 5px 10px;
-}
-
-
-
-div.announcement{
-    border: 1px solid black;
-    margin: 20px 10px;
-}
-
-div.announcement p{
-    padding: 20px 10px 15px 10px;
-    text-indent: 24px;
-    text-align: justify;
-    font-size: 16px;
-}
-
-.uploader, .time{
-    font-weight: bold;
-}
-
-.info{
-    padding: 15px 0 5px 10px;
-}
-
-#UserInformation{
-    width: 500px;
 }
