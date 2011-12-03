@@ -105,4 +105,14 @@ class Liquidation extends AppModel {
             return $rates;
         }
 
+        function replaceBooleanExpense($data, $rates){
+            for($i = 0; $i<count($data['Report']); $i++){
+                foreach ($data['Report'][$i] as $key => $value){
+                    if($key == 'breakfast' || $key == 'lunch' || $key == 'dinner'){
+                        $data['Report'][$i][$key] = ($value == 1) ? $rates[$key] : 0;
+                    }
+                }
+            }
+            return $data;
+        }
 }
