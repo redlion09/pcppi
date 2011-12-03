@@ -115,4 +115,31 @@ class Liquidation extends AppModel {
             }
             return $data;
         }
+        
+        function getTotal($data) {
+            $total = 0;
+            $total += $data['Liquidation']['lodging'];
+            for($i = 0; $i<count($data['Report']); $i++){
+                foreach ($data['Report'][$i] as $key => $value){
+                    if($key == 'breakfast' || $key == 'lunch' || $key == 'dinner'){
+                        $total += $data['Report'][$i][$key];
+                    }
+                }
+            }
+            if(!empty ($data['Transportation'])){
+                foreach($data['Transportation'] as $key => $value){
+                        for($j = 0; $j < count($data['Transportation'][$key]); $j++){
+                            $total += $data['Transportation'][$key][$j]['amount'];
+                        }
+                }
+            }
+            if(!empty ($data['MiscellaneousFee'])){
+                foreach($data['MiscellaneousFee'] as $key => $value){
+                        for($j = 0; $j < count($data['MiscellaneousFee'][$key]); $j++){
+                            $total += $data['MiscellaneousFee'][$key][$j]['amount'];
+                        }
+                }
+            }
+            return $total;
+        }
 }
