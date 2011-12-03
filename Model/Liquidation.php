@@ -142,4 +142,29 @@ class Liquidation extends AppModel {
             }
             return $total;
         }
+        
+        function populateTransportations($data) {
+            $query = sprintf("select * from reports order by created desc limit %d;", count($data['Report']));
+            $reports = array_reverse($this->Report->query($query));
+            if(!empty ($data['Transportation'])){
+                foreach($data['Transportation'] as $key => $value){
+                        for($j = 0; $j < count($data['Transportation'][$key]); $j++){
+                            $query = sprintf("insert into transportations values ('%s', '%s', %s, '%s')", String::uuid(), $data['Transportation'][$key][$j]['description'], $data['Transportation'][$key][$j]['amount'], $reports[$key]['reports']['id']);
+                            $this->Report->Transportation->query($query);
+                        }
+                }
+            }
+        }
+        function populateMiscellaneousFees($data) {
+            $query = sprintf("select * from reports order by created desc limit %d;", count($data['Report']));
+            $reports = array_reverse($this->Report->query($query));
+            if(!empty ($data['MiscellaneousFee'])){
+                foreach($data['MiscellaneousFee'] as $key => $value){
+                        for($j = 0; $j < count($data['MiscellaneousFee'][$key]); $j++){
+                            $query = sprintf("insert into miscellaneous_fees values ('%s', '%s', %s, '%s')", String::uuid(), $data['MiscellaneousFee'][$key][$j]['description'], $data['MiscellaneousFee'][$key][$j]['amount'], $reports[$key]['reports']['id']);
+                            $this->Report->MiscellaneousFee->query($query);
+                        }
+                }
+            }
+        }
 }
