@@ -38,9 +38,30 @@ class LiquidationsController extends AppController {
  * @return void
  */
 	public function add() {
+            if($this->Session->read('Report.0.date') == NULL){
+                $this->redirect(array('action' => 'date'));
+            }
 		if ($this->request->is('post')) {
-			$this->Liquidation->create();
-			if ($this->Liquidation->save($this->request->data)) {
+                    $userInfo = $this->_userInfo();
+                    
+                    $this->request->data['Liquidation']['user_id'] = $userInfo['id'];
+                    $this->request->data['Liquidation']['isAccepted'] = NULL;
+                    
+                    
+                    $rates = $this->Liquidation->getRate($this->data['Liquidation']['location_id'], $userInfo['position_id']);
+                    $this->request->data['Liquidation']['lodging'] = ($this->data['Liquidation']['lodging'] == 1) ? $rates['lodging'] : 0;
+                    
+                    $this->request->data = $this->Liquidation->replaceBooleanExpense($this->data, $rates);
+                    
+                    
+                    $this->request->data['Liquidation']['total'] = $this->Liquidation->getTotal($this->data);
+                    
+                    unset($this->Liquidation->Report->validate['liquidation_id']);
+                    $this->Liquidation->create();
+			if ($this->Liquidation->saveAll($this->request->data)) {
+                                $this->Liquidation->populateTransportations($this->data);
+                                $this->Liquidation->populateMiscellaneousFees($this->data);
+                                $this->Session->delete('Report');
 				$this->Session->setFlash(__('The liquidation has been saved'));
 				$this->redirect(array('action' => 'index'));
 			} else {
