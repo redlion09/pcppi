@@ -44,7 +44,7 @@ class AppController extends Controller {
     public $helpers = array('Html', 'Form', 'Session', 'Js'=>'Jquery');
 
     function beforeFilter() {
-//        $this->Auth->allow(array('display', 'home'));
+//       $this->Auth->allow(array('display', 'home'));
         $this->Auth->loginAction = array('controller' => 'users', 'action' => 'login');
         $this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
         $this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'display', 'home');
