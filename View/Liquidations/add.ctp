@@ -34,7 +34,7 @@
             var option = (selection == 'Transportation') ? 0 : 1;
             var value = 0;
 
-            $('#' + day + tableID + ' tr:last').after('<tr><td><input name="data['+selection+']['+dayCount+']['+counter[dayCount][option]+'][description]" type="text" maxlength="100" id="'+selection + dayCount + counter[dayCount][option]+'Description"></td><td><input name="data['+selection+']['+dayCount+']['+counter[dayCount][option]+'][amount]" type="text" maxlength="8" id="'+selection + dayCount + counter[dayCount][option]+'Amount"></td</tr>');
+            $('#' + day + tableID + ' tr:last').after('<tr><td><input name="data['+selection+']['+dayCount+']['+counter[dayCount][option]+'][description]" type="text" maxlength="100" id="'+selection + dayCount + counter[dayCount][option]+'Description"></td><td><input name="data['+selection+']['+dayCount+']['+counter[dayCount][option]+'][amount]" type="number" maxlength="8" id="'+selection + dayCount + counter[dayCount][option]+'Amount"></td</tr>');
             counter[dayCount][option]++;
             value = counter[dayCount][option];
             if(value > 0){
@@ -150,5 +150,10 @@
         </div>
         <?php } ?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit', true));?>
+    <table>
+        <tr>
+            <td><?php echo $this->Form->submit(__('Back', true), array('class'=>'back' ,'type'=>'button', 'onclick'=>'location.href="date"'));?></td>
+            <td id="submit"><?php echo $this->Form->end(__('Submit', true), array('id'=>'LiquidationSubmit'));?></td>
+        </tr>
+    </table>
 </div>
