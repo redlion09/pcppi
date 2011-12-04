@@ -168,4 +168,27 @@ class LiquidationsController extends AppController {
                     $this->redirect(array('action'=>'add'));
                 }
         }
+        
+        public function review($id = null) {
+            $this->Liquidation->id = $id;
+            $this->Liquidation->Behaviors->attach('Containable');
+            if(!empty($this->data)){
+//                debug($this->data);
+                if($this->Liquidation->reviewReport($this->data)){
+                    $this->Session->setFlash(__('The liquidation has been saved', true));
+                    $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The liquidation could not be saved. Please, try again.', true));
+                }
+			}
+		if (!$this->Liquidation->exists()) {
+			$this->Session->setFlash(__('Invalid liquidation', true));
+			$this->redirect(array('action' => 'index'));
+		}
+                if(empty($this->data)){
+                    $liquidation = $this->Liquidation->find('all', array('contain'=>array('Location', 'User' => array('Department', 'Position'), 'Report' => array( 'Transportation', 'MiscellaneousFee')), 'conditions' => array('Liquidation.id'=>$id)));
+                    $liquidation = $liquidation[0];
+                }
+		$this->set(compact('liquidation'));
+        }
 }
