@@ -167,4 +167,148 @@ class Liquidation extends AppModel {
                 }
             }
         }
+        
+        function editExpenses($data){
+            /**
+             * Function flow:
+             *  1. Get previous record count
+             *  2. Get updated count
+             *  3. Compare and execute query depending on the comparison.
+             */
+//            debug($data);
+            foreach($data['Report'] as $key => $value){
+                /**
+                 * Get the count of the previous records so that we can cross match it with the updated version
+                 */
+                $query = sprintf("select count(*) from transportations where report_id='%s'", $data['Report'][$key]['id']);
+                $pointer = $this->Report->Transportation->query($query);
+                /**
+                 * Create a containable pointer
+                 */
+                $pointer = $pointer[0][0]['count(*)'];
+                
+                /**
+                 * Make sure that there will be a default value if ever the index is empty.
+                 */
+                if(empty($data['Transportation'][$key])) $pointer = 0;
+                
+                /**
+                 * Calculate the difference between the previous and the current records
+                 */
+                $difference = (empty($data['Transportation'][$key])) ?  (0 - $pointer) : count($data['Transportation'][$key]) - $pointer;
+                
+                /**
+                 * If the difference is greater than 0, then add the queries then validate if the old records needs to be updated.
+                 */
+                if($difference > 0){
+                    for($i = 0; $i < $difference; $i++){
+                        $query = sprintf("insert into transportations values ('%s', '%s', %s, '%s')", String::uuid(), $data['Transportation'][$key][$pointer+$i]['description'], $data['Transportation'][$key][$pointer+$i]['amount'], $data['Report'][$key]['id']);
+                        /**
+                         * Insert the values.
+                         */
+                        $this->Report->Transportation->query($query);
+                    }
+                    /**
+                     * If the records have been cut down, then, remove the latest updates then validate the remaining files.
+                     */
+                }else if($difference < 0){
+                    /**
+                     * Make sure that there is a non-negative counter
+                     */
+                    $difference = abs($difference);
+                    $query = sprintf("select * from transportations where report_id = '%s'", $data['Report'][$key]['id']);
+                    $results = $this->Report->Transportation->query($query);
+                    $pointer -= $difference;
+                    for($i = 0; $i < $difference; $i++){
+                        $query = sprintf("delete from transportations where id = '%s'", $results[$pointer+$i]['transportations']['id']);
+                        $this->Report->Transportation->query($query);
+                    }
+                }
+                if(!empty($data['Transportation'][$key])) $this->validateTransportations($data['Transportation'][$key], $pointer);
+            
+                /**
+                 * Get the count of the previous records so that we can cross match it with the updated version
+                 */
+                $query = sprintf("select count(*) from miscellaneous_fees where report_id='%s'", $data['Report'][$key]['id']);
+                $pointer = $this->Report->MiscellaneousFee->query($query);
+                /**
+                 * Create a containable pointer
+                 */
+                $pointer = $pointer[0][0]['count(*)'];
+                
+                /**
+                 * Make sure that there will be a default value if ever the index is empty.
+                 */
+                if(empty($data['MiscellaneousFee'][$key])) $pointer = 0;
+                
+                /**
+                 * Calculate the difference between the previous and the current records
+                 */
+                $difference = (empty($data['MiscellaneousFee'][$key])) ?  (0 - $pointer) : count($data['MiscellaneousFee'][$key]) - $pointer;
+                
+                /**
+                 * If the difference is greater than 0, then add the queries then validate if the old records needs to be updated.
+                 */
+                if($difference > 0){
+                    for($i = 0; $i < $difference; $i++){
+                        $query = sprintf("insert into miscellaneous_fees values ('%s', '%s', %s, '%s')", String::uuid(), $data['MiscellaneousFee'][$key][$pointer+$i]['description'], $data['MiscellaneousFee'][$key][$pointer+$i]['amount'], $data['Report'][$key]['id']);
+                        /**
+                         * Insert the values.
+                         */
+                        $this->Report->MiscellaneousFee->query($query);
+                    }
+                    /**
+                     * If the records have been cut down, then, remove the latest updates then validate the remaining files.
+                     */
+                }else if($difference < 0){
+                    /**
+                     * Make sure that there is a non-negative counter
+                     */
+                    $difference = abs($difference);
+                    $query = sprintf("select * from miscellaneous_fees where report_id = '%s'", $data['Report'][$key]['id']);
+                    $results = $this->Report->MiscellaneousFee->query($query);
+                    $pointer -= $difference;
+                    for($i = 0; $i < $difference; $i++){
+                        $query = sprintf("delete from miscellaneous_fees where id = '%s'", $results[$pointer+$i]['miscellaneous_fees']['id']);
+                        $this->Report->MiscellaneousFee->query($query);
+                    }
+                }
+                if(!empty($data['MiscellaneousFee'][$key])) $this->validateMiscellaneousFees($data['MiscellaneousFee'][$key], $pointer);
+            }
+//                $query = sprintf("select count(*) from miscellaneous_fees where report_id='%s'", $data['Report'][$i]['id']);
+        }
+        
+        function validateTransportations($transportation, $ceiling) {
+//            debug($transportations);
+            for($i = 0; $i < $ceiling; $i++){
+                $query= sprintf("select * from transportations  where id = '%s'", $transportation[$i]['id']);
+                $result = $this->Report->Transportation->query($query);
+                $result = $result[0]['transportations'];
+//                debug($result);
+                
+                if($result['description'] != $transportation[$i]['description'] || $result['amount'] != $transportation[$i]['amount']){
+                    $query = sprintf("update transportations set description = '%s', amount = %s where id = '%s'", $transportation[$i]['description'], $transportation[$i]['amount'], $transportation[$i]['id']);
+                    $result = $this->Report->Transportation->query($query);
+//                    debug($query);
+                }
+                
+            }
+        }
+
+        function validateMiscellaneousFees($miscellaneous_fee, $ceiling) {
+//            debug($miscellaneous_fees);
+            for($i = 0; $i < $ceiling; $i++){
+                $query= sprintf("select * from miscellaneous_fees  where id = '%s'", $miscellaneous_fee[$i]['id']);
+                $result = $this->Report->MiscellaneousFee->query($query);
+                $result = $result[0]['miscellaneous_fees'];
+//                debug($result);
+                
+                if($result['description'] != $miscellaneous_fee[$i]['description'] || $result['amount'] != $miscellaneous_fee[$i]['amount']){
+                    $query = sprintf("update miscellaneous_fees set description = '%s', amount = %s where id = '%s'", $miscellaneous_fee[$i]['description'], $miscellaneous_fee[$i]['amount'], $miscellaneous_fee[$i]['id']);
+                    $result = $this->Report->MiscellaneousFee->query($query);
+//                    debug($query);
+                }
+                
+            }
+        }
 }
