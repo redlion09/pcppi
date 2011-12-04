@@ -91,7 +91,6 @@ class LiquidationsController extends AppController {
                      * Set the default values for the Liquidation Entity
                      */
                     $this->request->data['Liquidation']['user_id'] = $userInfo['id'];
-                    $this->request->data['Liquidation']['isAccepted'] = NULL;
                     
                     /**
                      * Trace all rates from the database
