@@ -16,7 +16,6 @@ class UsersController extends AppController {
     
         public function beforeFilter() {
             parent::beforeFilter();
-//            $this->Auth->allow('*');
         }
         
         public function login() {
@@ -143,8 +142,10 @@ class UsersController extends AppController {
 //            $this->Acl->deny($group, 'controllers/Liquidations/add');
 //            $this->Acl->allow($group, 'controllers/Pages');
 //            $this->Acl->allow($group, 'controllers/Liquidations');
+//            $this->Acl->deny($group, 'controllers/Liquidations/add');
 //            $this->Acl->allow($group, 'controllers/Announcements');
 //            $this->Acl->allow($group, 'controllers/Users/profile');
+//            $this->Acl->allow($group, 'controllers/Users/logout');
 //            $this->Acl->allow($group, 'controllers/Notifications/index');
 //
 //            //regular
@@ -152,8 +153,10 @@ class UsersController extends AppController {
 //            $this->Acl->deny($group, 'controllers');        
 //            $this->Acl->allow($group, 'controllers/Pages');
 //            $this->Acl->allow($group, 'controllers/Liquidations');
+//            $this->Acl->deny($group, 'controllers/Liquidations/review');
 //            $this->Acl->allow($group, 'controllers/Users/profile');
 //            $this->Acl->allow($group, 'controllers/Announcements/view');
+//            $this->Acl->allow($group, 'controllers/Users/logout');
 //            $this->Acl->allow($group, 'controllers/Notifications/index');
 //            //we add an exit to avoid an ugly "missing views" error message
 //            echo "all done";

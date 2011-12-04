@@ -1,9 +1,23 @@
 <div class="liquidations">
     <?php  
-        $status = ($liquidation['Liquidation']['isAccepted'] == null) ? 'Pending' : (($liquidation['Liquidation']['isAccepted'] == 0) ? 'Disapproved' : 'Approved');
+        $status = ($liquidation['Liquidation']['isAccepted'] == null) ? 'Pending' : (($liquidation['Liquidation']['isAccepted'] == '0') ? 'Disapproved' : 'Approved');
     ?>
     <fieldset>
         <legend><?php echo $status;?></legend>
+        <div id="actions">
+            <?php 
+                echo $this->Form->create('Liquidation');
+                echo $this->Form->input('Liquidation.id', array('type'=>'hidden', 'value'=>$liquidation['Liquidation']['id']));
+                echo $this->Form->input('Liquidation.isApproved', array('type'=>'hidden', 'value'=>1));
+                echo $this->Form->end('Approve', array('div'=>false, 'class'=>'action approve', 'id'=>'ApproveLiquidation')); 
+            ?>
+            <?php 
+                echo $this->Form->create('Liquidation');
+                echo $this->Form->input('Liquidation.id', array('type'=>'hidden', 'value'=>$liquidation['Liquidation']['id']));
+                echo $this->Form->input('Liquidation.isApproved', array('type'=>'hidden', 'value'=>0));
+                echo $this->Form->end('Disapprove', array('div'=>false,'class'=>'action disapprove', 'id'=>'DisapproveLiquidation')); 
+            ?>
+        </div>
         <table>
             <tr>
                 <td>Name: <?php echo sprintf("%s %s %s", $userInfo['first_name'], $userInfo['middle_name'], $userInfo['last_name']); ?></td>
@@ -31,6 +45,8 @@
             <?php for($i = 0; $i < count($liquidation['Report']); $i++){ ?>
                 <tr>
                     <td rowspan ="5<?php 
+//                    $length = (count($liquidation['Report'][$i]['Transportation']) > count($liquidation['Report'][$i]['MiscellaneousFee'])) ? ((count($liquidation['Report'][$i]['Transportation']) > 3) ? count($liquidation['Report'][$i]['Transportation']) : 3) : ((count($liquidation['Report'][$i]['MiscellaneousFee']) > 3) ? count($liquidation['Report'][$i]['MiscellaneousFee']) : 3);
+//                      echo $length;
                     ?>"><?php echo date('F j, Y', strtotime($liquidation['Report'][$i]['date'])); ?></td>
                     <td>Breakfast</td>
                     <td><?php echo $liquidation['Report'][$i]['breakfast']; ?></td>
