@@ -44,23 +44,36 @@ class LiquidationsController extends AppController {
 		if ($this->request->is('post')) {
                     $userInfo = $this->_userInfo();
                     
+                    /**
+                     * Set the default values for the Liquidation Entity
+                     */
                     $this->request->data['Liquidation']['user_id'] = $userInfo['id'];
                     $this->request->data['Liquidation']['isAccepted'] = NULL;
                     
-                    
+                    /**
+                     * Trace all rates from the database
+                     */
                     $rates = $this->Liquidation->getRate($this->data['Liquidation']['location_id'], $userInfo['position_id']);
                     $this->request->data['Liquidation']['lodging'] = ($this->data['Liquidation']['lodging'] == 1) ? $rates['lodging'] : 0;
-                    
+                    /**
+                     * Replace all boolean expenses with actual values.
+                     */
                     $this->request->data = $this->Liquidation->replaceBooleanExpense($this->data, $rates);
                     
-                    
+                    /**
+                     * Compute for the total amount.
+                     */
                     $this->request->data['Liquidation']['total'] = $this->Liquidation->getTotal($this->data);
                     
                     unset($this->Liquidation->Report->validate['liquidation_id']);
                     $this->Liquidation->create();
 			if ($this->Liquidation->saveAll($this->request->data)) {
+                                /**
+                                 * Insert transportations and miscellaneous fees
+                                 */
                                 $this->Liquidation->populateTransportations($this->data);
                                 $this->Liquidation->populateMiscellaneousFees($this->data);
+                                
                                 $this->Session->delete('Report');
 				$this->Session->setFlash(__('The liquidation has been saved'));
 				$this->redirect(array('action' => 'index'));
@@ -96,7 +109,6 @@ class LiquidationsController extends AppController {
                      * Trace all rates from the database
                      */
                     $rates = $this->Liquidation->getRate($this->request->data['Liquidation']['location_id'], $userInfo['position_id']);
-//                    debug($rates);
                     $this->request->data['Liquidation']['lodging'] = ($this->request->data['Liquidation']['lodging'] == 1) ? $rates['lodging'] : 0;
                     /**
                      * Replace all boolean expenses with actual values.
