@@ -1,97 +1,81 @@
-<div class="liquidations view">
-<h2><?php  echo __('Liquidation');?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($liquidation['Liquidation']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Lodging'); ?></dt>
-		<dd>
-			<?php echo h($liquidation['Liquidation']['lodging']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Total'); ?></dt>
-		<dd>
-			<?php echo h($liquidation['Liquidation']['total']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('IsAccepted'); ?></dt>
-		<dd>
-			<?php echo h($liquidation['Liquidation']['isAccepted']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('User'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($liquidation['User']['username'], array('controller' => 'users', 'action' => 'view', $liquidation['User']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Location'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($liquidation['Location']['location'], array('controller' => 'locations', 'action' => 'view', $liquidation['Location']['id'])); ?>
-			&nbsp;
-		</dd>
-	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Liquidation'), array('action' => 'edit', $liquidation['Liquidation']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Liquidation'), array('action' => 'delete', $liquidation['Liquidation']['id']), null, __('Are you sure you want to delete # %s?', $liquidation['Liquidation']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Liquidations'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Liquidation'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Locations'), array('controller' => 'locations', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Location'), array('controller' => 'locations', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Reports'), array('controller' => 'reports', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Report'), array('controller' => 'reports', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
-<div class="related">
-	<h3><?php echo __('Related Reports');?></h3>
-	<?php if (!empty($liquidation['Report'])):?>
-	<table cellpadding = "0" cellspacing = "0">
-	<tr>
-		<th><?php echo __('Id'); ?></th>
-		<th><?php echo __('Day'); ?></th>
-		<th><?php echo __('Date'); ?></th>
-		<th><?php echo __('Breakfast'); ?></th>
-		<th><?php echo __('Lunch'); ?></th>
-		<th><?php echo __('Dinner'); ?></th>
-		<th><?php echo __('User Id'); ?></th>
-		<th><?php echo __('Liquidation Id'); ?></th>
-		<th><?php echo __('Created'); ?></th>
-		<th><?php echo __('Modified'); ?></th>
-		<th class="actions"><?php echo __('Actions');?></th>
-	</tr>
-	<?php
-		$i = 0;
-		foreach ($liquidation['Report'] as $report): ?>
-		<tr>
-			<td><?php echo $report['id'];?></td>
-			<td><?php echo $report['day'];?></td>
-			<td><?php echo $report['date'];?></td>
-			<td><?php echo $report['breakfast'];?></td>
-			<td><?php echo $report['lunch'];?></td>
-			<td><?php echo $report['dinner'];?></td>
-			<td><?php echo $report['user_id'];?></td>
-			<td><?php echo $report['liquidation_id'];?></td>
-			<td><?php echo $report['created'];?></td>
-			<td><?php echo $report['modified'];?></td>
-			<td class="actions">
-				<?php echo $this->Html->link(__('View'), array('controller' => 'reports', 'action' => 'view', $report['id'])); ?>
-				<?php echo $this->Html->link(__('Edit'), array('controller' => 'reports', 'action' => 'edit', $report['id'])); ?>
-				<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'reports', 'action' => 'delete', $report['id']), null, __('Are you sure you want to delete # %s?', $report['id'])); ?>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-	</table>
-<?php endif; ?>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $this->Html->link(__('New Report'), array('controller' => 'reports', 'action' => 'add'));?> </li>
-		</ul>
-	</div>
+<div class="liquidations">
+    <?php  
+        $status = ($liquidation['Liquidation']['isAccepted'] == null) ? 'Pending' : (($liquidation['Liquidation']['isAccepted'] == 0) ? 'Disapproved' : 'Approved');
+    ?>
+    <fieldset>
+        <legend><?php echo $status;?></legend>
+        <table>
+            <tr>
+                <td>Name: <?php echo sprintf("%s %s %s", $userInfo['first_name'], $userInfo['middle_name'], $userInfo['last_name']); ?></td>
+                <td>Department: <?php echo $liquidation['User']['Department']['department']; ?></td>
+                <td>Destination: <?php echo $liquidation['Location']['location']; ?></td>
+                <td>Region: <?php echo $liquidation['Location']['region']; ?></td>
+            </tr>
+            <tr>
+                <td>Position: <?php echo $liquidation['User']['Position']['position']; ?></td>
+                <td>Job Class: <?php echo $liquidation['User']['Position']['class']; ?></td>
+                <td>Destination Class: <?php echo $liquidation['Location']['class']; ?></td>
+                <td>Lodging: <?php echo $liquidation['Liquidation']['lodging']; ?></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Basic Expenses</th>
+                <th>Amount</th>
+                <th>Travel Expenses</th>
+                <th>Amount</th>
+                <th>Miscellaneous</th>
+                <th>Amount</th>
+            </tr>
+            <?php for($i = 0; $i < count($liquidation['Report']); $i++){ ?>
+                <tr>
+                    <td rowspan ="5<?php 
+                    ?>"><?php echo date('F j, Y', strtotime($liquidation['Report'][$i]['date'])); ?></td>
+                    <td>Breakfast</td>
+                    <td><?php echo $liquidation['Report'][$i]['breakfast']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][0])) echo $liquidation['Report'][$i]['Transportation'][0]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][0])) echo $liquidation['Report'][$i]['Transportation'][0]['amount']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][0])) echo $liquidation['Report'][$i]['MiscellaneousFee'][0]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][0])) echo $liquidation['Report'][$i]['MiscellaneousFee'][0]['amount']; ?></td>
+                </tr>
+                <tr>
+                    <td>Lunch</td>
+                    <td><?php echo $liquidation['Report'][$i]['lunch']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][1])) echo $liquidation['Report'][$i]['Transportation'][1]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][1])) echo $liquidation['Report'][$i]['Transportation'][1]['amount']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][1])) echo $liquidation['Report'][$i]['MiscellaneousFee'][1]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][1])) echo $liquidation['Report'][$i]['MiscellaneousFee'][1]['amount']; ?></td>
+                </tr>
+                <tr>
+                    <td>Dinner</td>
+                    <td><?php echo $liquidation['Report'][$i]['dinner']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][2])) echo $liquidation['Report'][$i]['Transportation'][2]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][2])) echo $liquidation['Report'][$i]['Transportation'][2]['amount']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][2])) echo $liquidation['Report'][$i]['MiscellaneousFee'][2]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][2])) echo $liquidation['Report'][$i]['MiscellaneousFee'][2]['amount']; ?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][3])) echo $liquidation['Report'][$i]['Transportation'][3]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][3])) echo $liquidation['Report'][$i]['Transportation'][3]['amount']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][3])) echo $liquidation['Report'][$i]['MiscellaneousFee'][3]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][3])) echo $liquidation['Report'][$i]['MiscellaneousFee'][3]['amount']; ?></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][4])) echo $liquidation['Report'][$i]['Transportation'][4]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['Transportation'][4])) echo $liquidation['Report'][$i]['Transportation'][4]['amount']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][4])) echo $liquidation['Report'][$i]['MiscellaneousFee'][4]['description']; ?></td>
+                    <td><?php if(!empty ($liquidation['Report'][$i]['MiscellaneousFee'][4])) echo $liquidation['Report'][$i]['MiscellaneousFee'][4]['amount']; ?></td>
+                </tr>
+            <?php } ?>
+                <tr>
+                    <td>Total Expense:</td>
+                    <td colspan ="6"><?php echo $liquidation['Liquidation']['total'];?></td>
+                </tr>
+        </table>
+    </fieldset>
 </div>

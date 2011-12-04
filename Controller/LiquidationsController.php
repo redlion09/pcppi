@@ -25,12 +25,16 @@ class LiquidationsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+                $this->Liquidation->Behaviors->attach('Containable');
 		$this->Liquidation->id = $id;
 		if (!$this->Liquidation->exists()) {
 			throw new NotFoundException(__('Invalid liquidation'));
+			$this->redirect(array('action' => 'index'));
 		}
-		$this->set('liquidation', $this->Liquidation->read(null, $id));
-	}
+                $liquidation = $this->Liquidation->find('all', array('contain'=>array('Location', 'User' => array('Department', 'Position'), 'Report' => array( 'Transportation', 'MiscellaneousFee')), 'conditions' => array('Liquidation.id'=>$id)));
+                $liquidation = $liquidation[0];
+		$this->set(compact('liquidation'));
+        }
 
 /**
  * add method
