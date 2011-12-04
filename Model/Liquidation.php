@@ -314,6 +314,7 @@ class Liquidation extends AppModel {
         
         function reviewReport($data) {
             $query = sprintf("update liquidations set isAccepted = %s where id = '%s'", $data['Liquidation']['isApproved'], $data['Liquidation']['id']);
-            return ($this->query($query)) ? true : false;
+            $this->query($query);
+            return true;
         }
 }
