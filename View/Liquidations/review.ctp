@@ -1,6 +1,6 @@
 <div class="liquidations">
     <?php  
-        $status = ($liquidation['Liquidation']['isAccepted'] == null) ? 'Pending' : (($liquidation['Liquidation']['isAccepted'] == 0) ? 'Disapproved' : 'Approved');
+        $status = ($liquidation['Liquidation']['isAccepted'] == null) ? 'Pending' : (($liquidation['Liquidation']['isAccepted'] == '0') ? 'Disapproved' : 'Approved');
     ?>
     <fieldset>
         <legend><?php echo $status;?></legend>
